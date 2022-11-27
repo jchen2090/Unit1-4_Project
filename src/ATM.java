@@ -1,56 +1,178 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
-public class ATM {
+public class ATM 
+{
+    final private static Scanner input = new Scanner(System.in);
+    final private static boolean onScreen = true;
+    private static ArrayList<Account> listOfAccounts = new ArrayList<Account>();
 
-    final static Scanner input = new Scanner(System.in);
 
+    // Opening screen for the ATM machine
     public static void openingScreen()
     {
-        do {
-            System.out.printf("%30s\n", "ATM Machine");
+        listOfAccounts = Data.load();
+
+        while (onScreen)
+        {
+            System.out.printf("%30s", "::ATM Machine::");
             System.out.print(
-                    "1. Accounts\n"
-                    + "9. Exit\n"
-                    + ">>> "
+                "\n1. Start"
+                + "\n9. Exit"
+                + "\n>>> "
             );
+            
             String option = input.nextLine();
 
-            if (option.equals("1")) {
+            if (option.equals("1"))
+            {
                 displayAccounts();
-            } else if (option.equals("9")) {
-                System.exit(0);
-            } else {
-                System.out.println("Not a valid option");
             }
-        } while(!input.equals("9"));
+            else if (option.equals("9"))
+            {
+                System.exit(0);
+            }
+            else 
+            {
+                System.out.println("Not a valid choice\n");    
+            }
+        }
     }
 
+    // Displays the accounts to the user
+    // Allows user to login or create a new account
     private static void displayAccounts()
     {
-        System.out.println("Display accounts");
-        System.out.println(
-                "1. Login"
-                + "2. Create Account"
-        );
+        while (onScreen)
+        {
+            System.out.printf("Account Number" + "%15s%15s\n", "First Name", "Last Name");
+            
+            printAccounts();
+            
+            System.out.print(
+                "\n1. Login"
+                + "\n2. Create Account"
+                + "\n9. Go back to start"
+                + "\n>>> "
+            );
 
-        if (input.equals("1"))
-        {
-            promptLogin();
-        }
-        else if (input.equals("2"))
-        {
-            createAccount();
+            String option = input.nextLine();
+
+            if (option.equals("1"))
+            {
+                promptLogin();
+            }
+            else if (option.equals("2"))
+            {
+                createAccount();
+                Data.save(listOfAccounts);
+            }
+            else if(option.equals("9"))
+            {
+                return;
+            }
+            else 
+            {
+                System.out.println("Not a valid choice!\n");    
+            }
         }
     }
 
+
+    // Lets the user to log into an account
+    // Have to to check if the user exists in the first place
+    // Have to check if the password and user input mat
     private static void promptLogin()
     {
-        System.out.println("Prompt login");
+        System.out.print("Enter Account Number: ");
+        String accountNum = input.nextLine();
+
+        if (Authenticator.geAccount(listOfAccounts, accountNum) != null)
+        {
+            Account accountToLogin = Authenticator.geAccount(listOfAccounts, accountNum);
+
+            System.out.printf("Enter password for account %s: ", accountNum);
+            String password = input.nextLine();
+
+            if (Authenticator.passwordIsCorrect(accountToLogin, password))
+            {
+                promptAccountAction(accountToLogin);
+            }
+            else
+            {
+                System.out.println("Password Incorrect!\n");
+            }
+        }
+        else
+        {
+            System.out.println("Account doesn't exist!\n");
+        }
     }
 
+
+    // Gets input from user to create an account
     private static void createAccount()
     {
-        System.out.println("Create account");
+        System.out.print("Enter first name: ");
+        String firstName = input.nextLine();
+
+        System.out.print("Enter last name: ");
+        String lastName = input.nextLine();
+
+        System.out.print("Enter a password: ");
+        String password = input.nextLine();
+
+        Account account = new Account(firstName, lastName, password);
+        listOfAccounts.add(account);
+    }
+
+    
+    // Prints available accounts
+    private static void printAccounts()
+    {
+        for (Account accounts : listOfAccounts)
+        {
+            System.out.printf(accounts.getAccountNumber() + "%20s%15s\n", accounts.getFirstName(), accounts.getLastName());
+        }
+    }
+
+
+    // Once logged in, allows user to deposit or withdraw money
+    private static void promptAccountAction(Account account) 
+    {
+       while (onScreen)
+       {
+            System.out.println("\n" + account);
+            System.out.print(
+                "\n1. Deposit"
+                + "\n2. Withdraw"
+                + "\n9. Logout"
+                + "\n>>> "
+            );
+
+            String option = input.next();
+            
+            if (option.equals("1"))
+            {
+                System.out.print("Enter amount to deposit: ");
+                double depositAmt = input.nextDouble();
+                account.deposit(depositAmt);
+            }
+            else if (option.equals("2"))
+            {
+                System.out.println("Enter amount to withdraw: ");
+                double withdrawAmt = input.nextDouble();
+                account.withdraw(withdrawAmt);
+            }
+            else if (option.equals("9"))
+            {
+                return;
+            }
+            else 
+            {
+                System.out.println("Not a valid choice!\n");
+            }
+       }
     }
 
 }
