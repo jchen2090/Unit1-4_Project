@@ -12,13 +12,13 @@ import java.util.ArrayList;
 public class Data 
 {
     // Gets attributes from each account object and writes it to txt file
-    public static void save(ArrayList<Account> listofAccounts)
+    public static void save(ArrayList<Account> listOfAccounts)
     {
         try 
         {
             BufferedWriter writer = new BufferedWriter(new FileWriter("src\\Data.txt"));
             
-            for (Account accounts : listofAccounts)
+            for (Account accounts : listOfAccounts)
             {
                 String accountNum = accounts.getAccountNumber();
                 String fName = accounts.getFirstName();
@@ -39,17 +39,16 @@ public class Data
 
     // Reads attributes from text file and creates new object
     // This is then stored in an arraylist and is returned
-    public static ArrayList<Account> load()
+    public static ArrayList<Account> load(ArrayList<Account> listOfAccounts)
     {
         try 
         {
             String object;
             BufferedReader reader = new BufferedReader(new FileReader("src\\Data.txt"));
-            ArrayList<Account> listOfAccounts = new ArrayList<>();
 
             while ((object = reader.readLine()) != null)
             {
-                String[] attributes = object.split("\\|");
+                String[] attributes = object.split(" \\| ");
                 String accountNum = attributes[0];
                 String firstName = attributes[1];
                 String lastName = attributes[2];
@@ -62,16 +61,29 @@ public class Data
             }
             reader.close();
             return listOfAccounts;
-        } 
-        catch (FileNotFoundException e) 
+        }
+        catch (FileNotFoundException e)
         {
             e.printStackTrace();
-        } 
-        catch (IOException e) 
+        }
+        catch (IOException e)
         {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static int getAccount(ArrayList<Account> listOfAccounts, String accountNumber)
+    {
+        for (int i = 0; i < listOfAccounts.size(); i++)
+        {
+            Account accountToCheck = listOfAccounts.get(i);
+            if (accountToCheck.getAccountNumber().equals(accountNumber))
+            {
+                return i;
+            }
+        }
+        return -1;
     }
     
 }
