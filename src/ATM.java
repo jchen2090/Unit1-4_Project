@@ -5,13 +5,13 @@ public class ATM
 {
     final private static Scanner input = new Scanner(System.in);
     final private static boolean onScreen = true;
-    private static ArrayList<Account> listOfAccounts = new ArrayList<Account>();
+    private static ArrayList<Account> listOfAccounts = new ArrayList<>();
 
 
     // Opening screen for the ATM machine
     public static void openingScreen()
     {
-        listOfAccounts = Data.load();
+        listOfAccounts = Data.load(listOfAccounts);
 
         while (onScreen)
         {
@@ -50,7 +50,7 @@ public class ATM
             printAccounts();
             
             System.out.print(
-                "\n1. Login"
+                "\n1. Log in"
                 + "\n2. Create Account"
                 + "\n9. Go back to start"
                 + "\n>>> "
@@ -87,16 +87,18 @@ public class ATM
         System.out.print("Enter Account Number: ");
         String accountNum = input.nextLine();
 
-        if (Authenticator.geAccount(listOfAccounts, accountNum) != null)
-        {
-            Account accountToLogin = Authenticator.geAccount(listOfAccounts, accountNum);
+        int indexOfAccount = Data.getAccount(listOfAccounts, accountNum);
+        System.out.println(indexOfAccount);
 
+        if (indexOfAccount != -1)
+        {
+            Account account = listOfAccounts.get(indexOfAccount);
             System.out.printf("Enter password for account %s: ", accountNum);
             String password = input.nextLine();
 
-            if (Authenticator.passwordIsCorrect(accountToLogin, password))
+            if (account.getPassword().equals(password))
             {
-                promptAccountAction(accountToLogin);
+                promptAccountAction(account);
             }
             else
             {
@@ -105,7 +107,7 @@ public class ATM
         }
         else
         {
-            System.out.println("Account doesn't exist!\n");
+            System.out.println("Account doesn't exist\n");
         }
     }
 
@@ -146,6 +148,7 @@ public class ATM
             System.out.print(
                 "\n1. Deposit"
                 + "\n2. Withdraw"
+                + "\n3. Change Password"
                 + "\n9. Logout"
                 + "\n>>> "
             );
@@ -157,12 +160,31 @@ public class ATM
                 System.out.print("Enter amount to deposit: ");
                 double depositAmt = input.nextDouble();
                 account.deposit(depositAmt);
+                Data.save(listOfAccounts);
             }
             else if (option.equals("2"))
             {
-                System.out.println("Enter amount to withdraw: ");
+                System.out.print("Enter amount to withdraw: ");
                 double withdrawAmt = input.nextDouble();
                 account.withdraw(withdrawAmt);
+                Data.save(listOfAccounts);
+            }
+            else if (option.equals("3"))
+            {
+                System.out.print("Enter current password: ");
+                String currentPassword = input.next();
+
+                if (account.getPassword().equals(currentPassword))
+                {
+                    System.out.print("Enter new password: ");
+                    String newPassword = input.next();
+
+                    account.setPassword(newPassword);
+                }
+                else
+                {
+                    System.out.println("Password Incorrect");
+                }
             }
             else if (option.equals("9"))
             {
