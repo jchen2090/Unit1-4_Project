@@ -52,6 +52,11 @@ public class Account
         return password;
     }
 
+    public void setPassword(String newPassword)
+    {
+        this.password = newPassword;
+    }
+
     public double getBalance()
     {
         return balance;
@@ -77,12 +82,11 @@ public class Account
 
     public String toString()
     {
-        return (
-            "Account: " + bankAccountNumber
-            + "\nFirst Name: " + fName
-            + "\nLast Name: " + lName
-            + "\nBalance: " + balance
-        );
+        return (String.format(
+                "First Name: %s"
+                + "\nLast Name: %s"
+                + "\nBalance: $%,.2f", fName, lName, balance
+        ));
     }
 
 }
