@@ -12,7 +12,6 @@ public class ATM
     public static void openingScreen()
     {
         listOfAccounts = Data.load(listOfAccounts);
-
         while (onScreen)
         {
             System.out.printf("%30s", "::ATM Machine::");
@@ -73,7 +72,7 @@ public class ATM
             }
             else 
             {
-                System.out.println("Not a valid choice!\n");    
+                System.out.println("Not a valid choice\n");    
             }
         }
     }
@@ -87,12 +86,10 @@ public class ATM
         System.out.print("Enter Account Number: ");
         String accountNum = input.nextLine();
 
-        int indexOfAccount = Data.getAccount(listOfAccounts, accountNum);
-        System.out.println(indexOfAccount);
+        Account account = Data.getAccount(listOfAccounts, accountNum);
 
-        if (indexOfAccount != -1)
+        if (account != null)
         {
-            Account account = listOfAccounts.get(indexOfAccount);
             System.out.printf("Enter password for account %s: ", accountNum);
             String password = input.nextLine();
 
@@ -102,7 +99,7 @@ public class ATM
             }
             else
             {
-                System.out.println("Password Incorrect!\n");
+                System.out.println("Password Incorrect\n");
             }
         }
         else
@@ -144,6 +141,7 @@ public class ATM
     {
        while (onScreen)
        {
+            Data.save(listOfAccounts);
             System.out.println("\n" + account);
             System.out.print(
                 "\n1. Deposit"
@@ -160,14 +158,12 @@ public class ATM
                 System.out.print("Enter amount to deposit: ");
                 double depositAmt = input.nextDouble();
                 account.deposit(depositAmt);
-                Data.save(listOfAccounts);
             }
             else if (option.equals("2"))
             {
                 System.out.print("Enter amount to withdraw: ");
                 double withdrawAmt = input.nextDouble();
                 account.withdraw(withdrawAmt);
-                Data.save(listOfAccounts);
             }
             else if (option.equals("3"))
             {
@@ -192,7 +188,7 @@ public class ATM
             }
             else 
             {
-                System.out.println("Not a valid choice!\n");
+                System.out.println("Not a valid choice\n");
             }
        }
     }

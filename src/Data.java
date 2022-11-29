@@ -73,17 +73,16 @@ public class Data
         return null;
     }
 
-    public static int getAccount(ArrayList<Account> listOfAccounts, String accountNumber)
+    public static Account getAccount(ArrayList<Account> listOfAccounts, String accountNumber)
     {
-        for (int i = 0; i < listOfAccounts.size(); i++)
+        for (Account account : listOfAccounts)
         {
-            Account accountToCheck = listOfAccounts.get(i);
-            if (accountToCheck.getAccountNumber().equals(accountNumber))
+            if (account.getAccountNumber().equals(accountNumber))
             {
-                return i;
+                return account;
             }
         }
-        return -1;
+        return null;
     }
     
 }
