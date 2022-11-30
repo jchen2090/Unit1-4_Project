@@ -112,6 +112,8 @@ public class ATM
     // Gets input from user to create an account
     private static void createAccount()
     {
+        String accountType = promptAccountType();
+
         System.out.print("Enter first name: ");
         String firstName = input.nextLine();
 
@@ -121,7 +123,7 @@ public class ATM
         System.out.print("Enter a password: ");
         String password = input.nextLine();
 
-        Account account = new Account(firstName, lastName, password);
+        Account account = new Account(firstName, lastName, password, accountType);
         listOfAccounts.add(account);
     }
 
@@ -147,6 +149,7 @@ public class ATM
                 "\n1. Deposit"
                 + "\n2. Withdraw"
                 + "\n3. Change Password"
+                + "\n4. Wait 1 day"
                 + "\n9. Logout"
                 + "\n>>> "
             );
@@ -182,6 +185,10 @@ public class ATM
                     System.out.println("Password Incorrect");
                 }
             }
+            else if (option.equals("4"))
+            {
+                account.waitOneDay();
+            }
             else if (option.equals("9"))
             {
                 return;
@@ -191,6 +198,33 @@ public class ATM
                 System.out.println("Not a valid choice\n");
             }
        }
+    }
+
+    private static String promptAccountType()
+    {
+        while (onScreen)
+        {
+            System.out.print(
+                    "What type of account do you want to create?"
+                    + "\n1. Saving"
+                    + "\n2. Checking"
+                    + "\n>>> "
+            );
+            String accountType = input.nextLine();
+
+            if (accountType.equals("1"))
+            {
+                return "Saving";
+            }
+            else if (accountType.equals("2"))
+            {
+                return "Checking";
+            }
+            else
+            {
+                System.out.println("Not a valid choice");
+            }
+        }
     }
 
 }

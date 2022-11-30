@@ -6,15 +6,27 @@ public class Account
     private String lName;
     private String password;
     private String bankAccountNumber;
+    private String accountType;
     private double balance;
+    private double interestRate;
 
-    public Account(String fName, String lName, String password)
+    public Account(String fName, String lName, String password, String accountType)
     {
         this.fName = fName;
         this.lName = lName;
         this.password = password;
         this.balance = 0.0;
         setAccountNumber();
+
+        if (accountType.equals("Savings"))
+        {
+            this.interestRate = 0.03;
+        }
+        else
+        {
+            this.interestRate = 0.0;
+        }
+        this.accountType = accountType;
     }
 
     public Account(String bankAccountNumber, String fName, String lName, double balance, String password)
@@ -72,7 +84,7 @@ public class Account
     {
         if (withdrawAmt > balance)
         {
-            System.out.println("Can't withdraw more than balance!");
+            System.out.println("Can't withdraw more than balance");
         }
         else 
         {
@@ -80,12 +92,18 @@ public class Account
         }
     }
 
+    public void waitOneDay()
+    {
+        balance *= (1 + interestRate);
+    }
+
     public String toString()
     {
         return (String.format(
-                "First Name: %s"
+                "Account type: %s"
+                + "\nFirst Name: %s"
                 + "\nLast Name: %s"
-                + "\nBalance: $%,.2f", fName, lName, balance
+                + "\nBalance: $%,.2f", accountType, fName, lName, balance
         ));
     }
 
