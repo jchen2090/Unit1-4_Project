@@ -25,8 +25,10 @@ public class Data
                 String lName = accounts.getLastName();
                 double balance = accounts.getBalance();
                 String password = accounts.getPassword();
+                String accountType = accounts.getAccountType();
+                Double interestRate = accounts.getInterestRate();
 
-                writer.write(accountNum + " | " + fName + " | " + lName + " | " + balance + " | " + password + "\n");
+                writer.write(accountNum + " | " + fName + " | " + lName + " | " + balance + " | " + password + " | " + accountType + " | " + interestRate + "\n");
             }
             writer.close();
 
@@ -54,8 +56,10 @@ public class Data
                 String lastName = attributes[2];
                 double balance = Double.parseDouble(attributes[3]);
                 String password = attributes[4];
+                String accountType = attributes[5];
+                double interestRate = Double.parseDouble(attributes[6]);
                 
-                Account account = new Account(accountNum, firstName, lastName, balance, password);
+                Account account = new Account(accountNum, firstName, lastName, balance, password, accountType, interestRate);
                 listOfAccounts.add(account);
 
             }

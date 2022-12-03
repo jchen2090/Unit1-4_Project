@@ -29,13 +29,15 @@ public class Account
         this.accountType = accountType;
     }
 
-    public Account(String bankAccountNumber, String fName, String lName, double balance, String password)
+    public Account(String bankAccountNumber, String fName, String lName, double balance, String password, String accountType, double interestRate)
     {
         this.bankAccountNumber = bankAccountNumber;
         this.fName = fName;
         this.lName = lName;
         this.balance = balance;
         this.password = password;
+        this.accountType = accountType;
+        this.interestRate = interestRate;
     }
 
     private void setAccountNumber()
@@ -59,6 +61,11 @@ public class Account
         return bankAccountNumber;
     }
 
+    public String getAccountType()
+    {
+        return accountType;
+    }
+
     public String getPassword()
     {
         return password;
@@ -72,6 +79,11 @@ public class Account
     public double getBalance()
     {
         return balance;
+    }
+
+    public double getInterestRate()
+    {
+        return interestRate;
     }
 
     public void deposit(double depostAmt)
@@ -103,7 +115,8 @@ public class Account
                 "Account type: %s"
                 + "\nFirst Name: %s"
                 + "\nLast Name: %s"
-                + "\nBalance: $%,.2f", accountType, fName, lName, balance
+                + "\nBalance: $%,.2f"
+                + "\n\nCurrent Interest Rate: %.0f%%", accountType, fName, lName, balance, interestRate * 100
         ));
     }
 

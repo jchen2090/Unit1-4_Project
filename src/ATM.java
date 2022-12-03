@@ -44,7 +44,7 @@ public class ATM
     {
         while (onScreen)
         {
-            System.out.printf("Account Number" + "%15s%15s\n", "First Name", "Last Name");
+            System.out.printf("Account Type" + "%20s%15s%15s\n", "Account Number", "First Name", "Last Name");
             
             printAccounts();
             
@@ -84,14 +84,14 @@ public class ATM
     private static void promptLogin()
     {
         System.out.print("Enter Account Number: ");
-        String accountNum = input.nextLine();
+        String accountNum = input.nextLine().strip();
 
         Account account = Data.getAccount(listOfAccounts, accountNum);
 
         if (account != null)
         {
             System.out.printf("Enter password for account %s: ", accountNum);
-            String password = input.nextLine();
+            String password = input.nextLine().strip();
 
             if (account.getPassword().equals(password))
             {
@@ -133,7 +133,7 @@ public class ATM
     {
         for (Account accounts : listOfAccounts)
         {
-            System.out.printf(accounts.getAccountNumber() + "%20s%15s\n", accounts.getFirstName(), accounts.getLastName());
+            System.out.printf(accounts.getAccountType() + "%20s%15s%15s\n", accounts.getAccountNumber(), accounts.getFirstName(), accounts.getLastName());
         }
     }
 
@@ -154,7 +154,7 @@ public class ATM
                 + "\n>>> "
             );
 
-            String option = input.next();
+            String option = input.nextLine();
             
             if (option.equals("1"))
             {
@@ -214,11 +214,11 @@ public class ATM
 
             if (accountType.equals("1"))
             {
-                return "Saving";
+                return "Savings";
             }
             else if (accountType.equals("2"))
             {
-                return "Checking";
+                return "Checkings";
             }
             else
             {
