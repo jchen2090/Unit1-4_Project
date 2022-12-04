@@ -160,23 +160,25 @@ public class ATM
             {
                 System.out.print("Enter amount to deposit: ");
                 double depositAmt = input.nextDouble();
+                input.nextLine();
                 account.deposit(depositAmt);
             }
             else if (option.equals("2"))
             {
                 System.out.print("Enter amount to withdraw: ");
                 double withdrawAmt = input.nextDouble();
+                input.nextLine();
                 account.withdraw(withdrawAmt);
             }
             else if (option.equals("3"))
             {
                 System.out.print("Enter current password: ");
-                String currentPassword = input.next();
+                String currentPassword = input.nextLine();
 
                 if (account.getPassword().equals(currentPassword))
                 {
                     System.out.print("Enter new password: ");
-                    String newPassword = input.next();
+                    String newPassword = input.nextLine();
 
                     account.setPassword(newPassword);
                 }
