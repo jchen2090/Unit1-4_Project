@@ -107,6 +107,7 @@ public class Account
     public void waitOneDay()
     {
         balance *= (1 + interestRate);
+        interestRate = Math.random();
     }
 
     public String toString()
