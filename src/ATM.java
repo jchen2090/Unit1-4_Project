@@ -8,6 +8,9 @@ public class ATM
     private static ArrayList<Account> listOfAccounts = new ArrayList<>();
 
 
+    /**
+     * Prints out the program main menu
+     */
     // Opening screen for the ATM machine
     public static void openingScreen()
     {

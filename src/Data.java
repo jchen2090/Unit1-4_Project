@@ -11,6 +11,9 @@ import java.util.ArrayList;
 // I,e saving and loading 
 public class Data 
 {
+    /**
+     * @param listOfAccounts List of accounts to save to a text file
+     */
     // Gets attributes from each account object and writes it to txt file
     public static void save(ArrayList<Account> listOfAccounts)
     {
@@ -39,6 +42,10 @@ public class Data
         }
     }
 
+    /**
+     * @param listOfAccounts List where accounts will load into
+     * @return List of accounts with all accounts loaded
+     */
     // Reads attributes from text file and creates new object
     // This is then stored in an arraylist and is returned
     public static ArrayList<Account> load(ArrayList<Account> listOfAccounts)
